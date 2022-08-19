@@ -2,15 +2,23 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+	"os"
 
-	"github.com/maha-1030/go-rest-api/database"
+	"github.com/gorilla/mux"
+	"github.com/maha-1030/go-rest-api/handlers"
 )
 
 func main() {
-	_, err := database.GetDB()
+	router := mux.NewRouter()
+	router.HandleFunc("/customers", handlers.GetCustomers)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "9000"
+	}
+	fmt.Println(port)
+	err := http.ListenAndServe(":"+port, router)
 	if err != nil {
-		fmt.Println("Failed to connect to the db")
-
-		return
+		fmt.Print(err)
 	}
 }
