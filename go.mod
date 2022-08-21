@@ -3,6 +3,7 @@ module github.com/maha-1030/go-rest-api
 go 1.18
 
 require (
+	github.com/gorilla/mux v1.8.0
 	github.com/jinzhu/gorm v1.9.16
 	github.com/joho/godotenv v1.4.0
 )

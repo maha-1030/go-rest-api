@@ -14,7 +14,6 @@ var db *gorm.DB
 var err error
 
 func init() {
-	fmt.Println("start db")
 	//Load .env file
 	if err = godotenv.Load(); err != nil {
 		fmt.Printf("Error occured while reading .env file, err: %v\n", err)
@@ -35,6 +34,8 @@ func init() {
 	if err != nil {
 		fmt.Printf("Error occured while connecting to database, err: %v\n", err)
 	}
+
+	fmt.Printf("successfully connected to the %v database\n", dialect)
 
 	db.Debug().AutoMigrate(&models.Customer{}, &models.Address{}, &models.Accounts{})
 }
