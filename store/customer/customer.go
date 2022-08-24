@@ -16,7 +16,6 @@ func NewCustomer(db *gorm.DB) store.Customer {
 	return &customer{
 		db: db,
 	}
-
 }
 
 func (c *customer) Get() (customers []models.Customer, err error) {
@@ -34,4 +33,13 @@ func (c *customer) Get() (customers []models.Customer, err error) {
 	}
 
 	return customers, nil
+}
+func (c *customer) Create(customer *models.Customer) (newCustomer *models.Customer, err error) {
+	if res := c.db.Create(customer); res.Error != nil {
+		fmt.Println("Error while creating the new customer, err: ", err)
+
+		return nil, err
+	}
+
+	return customer, nil
 }

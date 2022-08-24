@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	http1 "github.com/maha-1030/go-rest-api/http"
+	"github.com/maha-1030/go-rest-api/models"
 	"github.com/maha-1030/go-rest-api/service"
 )
 
@@ -22,18 +23,32 @@ func NewCustomer(cs service.Customer) http1.Customer {
 func (c *customer) Get(w http.ResponseWriter, r *http.Request) {
 	customers, err := c.cs.Get()
 	if err != nil {
-		w.Write([]byte(err.Error()))
+		http1.RespondWithJson(w, http.StatusInternalServerError, err)
 
 		return
 	}
 
-	bytes, err := json.Marshal(customers)
+	http1.RespondWithJson(w, http.StatusOK, customers)
+}
+
+func (c *customer) Create(w http.ResponseWriter, r *http.Request) {
+	var customerRequest models.Customer
+
+	if err := json.NewDecoder(r.Body).Decode(&customerRequest); err != nil {
+		fmt.Println("Error while decoding the request body into customer, err: ", err)
+
+		http1.RespondWithJson(w, http.StatusBadRequest,
+			map[string]string{"err": "unable to decode request body into customer"})
+
+		return
+	}
+
+	newCustomer, err := c.cs.Create(&customerRequest)
 	if err != nil {
-		fmt.Println("Error occured while marshaling, err: ", err)
-		w.Write([]byte(err.Error()))
+		http1.RespondWithJson(w, http.StatusInternalServerError, err)
 
 		return
 	}
 
-	w.Write(bytes)
+	http1.RespondWithJson(w, http.StatusOK, newCustomer)
 }
