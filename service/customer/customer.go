@@ -19,3 +19,7 @@ func NewCustomer(cs store.Customer) service.Customer {
 func (c *customer) Get() (customers []models.Customer, err error) {
 	return c.cs.Get()
 }
+
+func (c *customer) Create(customer *models.Customer) (newCustomer *models.Customer, err error) {
+	return c.cs.Create(customer)
+}

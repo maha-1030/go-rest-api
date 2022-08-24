@@ -24,8 +24,9 @@ func main() {
 	customerService := customer_service.NewCustomer(customerStore)
 	cust := customer.NewCustomer(customerService)
 
-	router := mux.NewRouter()
+	router := mux.NewRouter().Headers("Content-Type", "application/json").Subrouter()
 	router.HandleFunc("/customers", cust.Get)
+	router.HandleFunc("/customer", cust.Create)
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "9000"
