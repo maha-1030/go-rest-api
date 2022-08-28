@@ -25,8 +25,12 @@ func main() {
 	cust := customer.NewCustomer(customerService)
 
 	router := mux.NewRouter().Headers("Content-Type", "application/json").Subrouter()
-	router.HandleFunc("/customers", cust.Get)
-	router.HandleFunc("/customer", cust.Create)
+	router.HandleFunc("/customers", cust.GetAll).Methods(http.MethodGet)
+	router.HandleFunc("/customer", cust.Create).Methods(http.MethodPost)
+	router.HandleFunc("/customer/{id}", cust.Update).Methods(http.MethodPut)
+	router.HandleFunc("/customer/{id}", cust.Get).Methods(http.MethodGet)
+	router.HandleFunc("/customer/{id}", cust.Delete).Methods(http.MethodDelete)
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "9000"
