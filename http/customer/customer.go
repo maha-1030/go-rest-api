@@ -58,7 +58,7 @@ func (c *customer) Update(w http.ResponseWriter, r *http.Request) {
 
 	id, ok := vars["id"]
 	if !ok {
-		fmt.Println("Missing param 'id' in the customer update request")
+		fmt.Println("Missing path param 'id' in the customer update request")
 
 		http1.RespondWithError(w, http.StatusBadRequest, "missing param id")
 
@@ -88,7 +88,7 @@ func (c *customer) Get(w http.ResponseWriter, r *http.Request) {
 
 	id, ok := vars["id"]
 	if !ok {
-		fmt.Println("Missing param 'id' in the customer get request")
+		fmt.Println("Missing path param 'id' in the customer get request")
 
 		http1.RespondWithError(w, http.StatusBadRequest, "missing param id")
 
@@ -110,7 +110,7 @@ func (c *customer) Delete(w http.ResponseWriter, r *http.Request) {
 
 	id, ok := vars["id"]
 	if !ok {
-		fmt.Println("Missing param 'id' in the customer delete request")
+		fmt.Println("Missing path param 'id' in the customer delete request")
 
 		http1.RespondWithError(w, http.StatusBadRequest, "missing param id")
 

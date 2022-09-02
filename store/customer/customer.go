@@ -19,12 +19,6 @@ func NewCustomer(db *gorm.DB) store.Customer {
 }
 
 func (c *customer) GetAll() (customers []models.Customer, err error) {
-	if c.db == nil {
-		fmt.Println("Err: Database connection is not established")
-
-		return nil, fmt.Errorf("database connection is not established")
-	}
-
 	res := c.db.Find(&customers)
 	if res.Error != nil {
 		fmt.Println("Error while retrieving customers data, err: ", res.Error)

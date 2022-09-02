@@ -37,7 +37,7 @@ func init() {
 
 	fmt.Printf("successfully connected to the %v database\n", dialect)
 
-	db.Debug().AutoMigrate(&models.Customer{}, &models.Address{}, &models.Accounts{})
+	db.Debug().AutoMigrate(&models.Customer{}, &models.Address{}, &models.Account{})
 }
 
 func GetDB() (*gorm.DB, error) {
