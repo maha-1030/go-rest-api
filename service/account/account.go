@@ -80,11 +80,12 @@ func (a *account) Get(idString, customerIDString string) (acc *models.Account, e
 	return existingAccount, nil
 }
 
-func (a *account) UpdateBalance(customerIDString string, accountRequest *models.Account) (updatedAccount *models.Account, err error) {
-	if accountRequest.ID < 1 {
-		fmt.Println("Got invalid AccountID in the Update Account Balance request")
+func (a *account) UpdateBalance(idString, customerIDString string, accountRequest *models.Account) (updatedAccount *models.Account, err error) {
+	id, err := service.GetID(idString)
+	if err != nil {
+		fmt.Println("Got invalid accountID in the Update Account Balance request")
 
-		return nil, fmt.Errorf("invalid account id: %v", accountRequest.ID)
+		return nil, err
 	}
 
 	customerID, err := service.GetID(customerIDString)
@@ -101,7 +102,7 @@ func (a *account) UpdateBalance(customerIDString string, accountRequest *models.
 		return nil, err
 	}
 
-	existingAccount, err := a.as.Get(int(accountRequest.ID))
+	existingAccount, err := a.as.Get(id)
 	if err != nil {
 		fmt.Println("Unable to find account with given ID in Update Account Balance request, err: ", err)
 
@@ -114,7 +115,7 @@ func (a *account) UpdateBalance(customerIDString string, accountRequest *models.
 
 	existingAccount.Balance = accountRequest.Balance
 
-	return a.as.Update(int(accountRequest.ID), existingAccount)
+	return a.as.Update(id, existingAccount)
 }
 
 func (a *account) Delete(idString, customerIDString string) (err error) {

@@ -67,11 +67,20 @@ func (a *account) Create(w http.ResponseWriter, r *http.Request) {
 func (a *account) UpdateBalance(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
-	id, ok := vars["customerID"]
+	id, ok := vars["id"]
+	if !ok {
+		fmt.Println("Missing path param 'id' in the account update balance request")
+
+		http1.RespondWithError(w, http.StatusBadRequest, "missing param id")
+
+		return
+	}
+
+	customerID, ok := vars["customerID"]
 	if !ok {
 		fmt.Println("Missing path param 'customerID' in the account update balance request")
 
-		http1.RespondWithError(w, http.StatusBadRequest, "missing param id")
+		http1.RespondWithError(w, http.StatusBadRequest, "missing param customerID")
 
 		return
 	}
@@ -84,7 +93,7 @@ func (a *account) UpdateBalance(w http.ResponseWriter, r *http.Request) {
 		http1.RespondWithError(w, http.StatusBadRequest, "unable to decode request body into account")
 	}
 
-	updatedAccount, err := a.as.UpdateBalance(id, &accountRequest)
+	updatedAccount, err := a.as.UpdateBalance(id, customerID, &accountRequest)
 	if err != nil {
 		http1.RespondWithError(w, http.StatusInternalServerError, err.Error())
 

@@ -67,6 +67,15 @@ func (a *address) Create(w http.ResponseWriter, r *http.Request) {
 func (a *address) Update(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
+	id, ok := vars["id"]
+	if !ok {
+		fmt.Println("Missing path param 'id' in the address get request")
+
+		http1.RespondWithError(w, http.StatusBadRequest, "missing path param id")
+
+		return
+	}
+
 	customerID, ok := vars["customerID"]
 	if !ok {
 		fmt.Println("Missing path param 'customerID' in the address update balance request")
@@ -84,7 +93,7 @@ func (a *address) Update(w http.ResponseWriter, r *http.Request) {
 		http1.RespondWithError(w, http.StatusBadRequest, "unable to decode request body into address")
 	}
 
-	updatedAddress, err := a.as.Update(customerID, &addressRequest)
+	updatedAddress, err := a.as.Update(id, customerID, &addressRequest)
 	if err != nil {
 		http1.RespondWithError(w, http.StatusInternalServerError, err.Error())
 

@@ -8,9 +8,8 @@ import (
 
 type Account struct {
 	gorm.Model
-	CustomerID uint     `gorm:"customer_id"`
-	Balance    float64  `gorm:"balance"`
-	Customer   Customer `gorm:"foreignkey:customer_id;associationkey:id"`
+	CustomerID uint    `gorm:"customer_id"`
+	Balance    float64 `gorm:"balance"`
 }
 
 func (a *Account) Validate() (err error) {

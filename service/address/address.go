@@ -80,8 +80,9 @@ func (a *addres) Get(idString, customerIDString string) (addr *models.Address, e
 	return existingAddress, nil
 }
 
-func (a *addres) Update(customerIDString string, addressRequest *models.Address) (updatedAddress *models.Address, err error) {
-	if addressRequest.ID < 1 {
+func (a *addres) Update(idString, customerIDString string, addressRequest *models.Address) (updatedAddress *models.Address, err error) {
+	id, err := service.GetID(idString)
+	if err != nil {
 		fmt.Println("Got invalid AddressID in the Update Address request")
 
 		return nil, fmt.Errorf("invalid address id: %v", addressRequest.ID)
@@ -101,7 +102,7 @@ func (a *addres) Update(customerIDString string, addressRequest *models.Address)
 		return nil, err
 	}
 
-	existingAddress, err := a.as.Get(int(addressRequest.ID))
+	existingAddress, err := a.as.Get(id)
 	if err != nil {
 		fmt.Println("Unable to find address with given ID in Update Address request, err: ", err)
 
@@ -132,7 +133,7 @@ func (a *addres) Update(customerIDString string, addressRequest *models.Address)
 		existingAddress.PinCode = addressRequest.PinCode
 	}
 
-	return a.as.Update(int(addressRequest.ID), existingAddress)
+	return a.as.Update(id, existingAddress)
 }
 
 func (a *addres) Delete(idString, customerIDString string) (err error) {

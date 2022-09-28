@@ -8,10 +8,12 @@ import (
 
 type Customer struct {
 	gorm.Model
-	Name        string `gorm:"name"`
-	Age         int    `gorm:"age"`
-	PhoneNumber string `gorm:"phone_number"`
-	Gender      string `gorm:"gender"`
+	Name        string    `gorm:"name"`
+	Age         int       `gorm:"age"`
+	PhoneNumber string    `gorm:"phone_number"`
+	Gender      string    `gorm:"gender"`
+	Accounts    []Account `gorm:"foreignKey:customer_id;references:id"`
+	Addresses   []Address `gorm:"foreignKey:customer_id;references:id"`
 }
 
 func (c *Customer) Validate() (err error) {

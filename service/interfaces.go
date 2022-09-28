@@ -14,7 +14,7 @@ type Address interface {
 	GetAll() (addresses []models.Address, err error)
 	Create(customerID string, addresses *models.Address) (newAddres *models.Address, err error)
 	Get(id, customerID string) (address *models.Address, err error)
-	Update(customerID string, address *models.Address) (updatedAddress *models.Address, err error)
+	Update(id, customerID string, address *models.Address) (updatedAddress *models.Address, err error)
 	Delete(id, customerID string) (err error)
 }
 
@@ -22,6 +22,6 @@ type Account interface {
 	GetAll() (accounts []models.Account, err error)
 	Create(customerID string, account *models.Account) (newAccount *models.Account, err error)
 	Get(id, customerID string) (account *models.Account, err error)
-	UpdateBalance(customerID string, account *models.Account) (updatedAccount *models.Account, err error)
+	UpdateBalance(id, customerID string, account *models.Account) (updatedAccount *models.Account, err error)
 	Delete(id, customerID string) (err error)
 }
