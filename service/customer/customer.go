@@ -47,7 +47,7 @@ func (c *customer) Update(idString string, customerRequest *models.Customer) (up
 
 	existingCustomer, err := c.cs.Get(id)
 	if err != nil {
-		fmt.Println("Unable find customer with given ID in Update Customer request, err: ", err)
+		fmt.Println("Unable to find customer with given ID in Update Customer request, err: ", err)
 
 		return nil, err
 	}
